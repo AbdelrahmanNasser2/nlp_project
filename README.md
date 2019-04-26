@@ -62,4 +62,4 @@ C_values = [0.01, 0.05, 0.25, 0.5, 1]
       F1: 0.894
 
 # Conclusion :
-the Bi-Grams with Logistic Regression get the best accuracy.
+the Bi-Grams with Logistic Regression get the best accuracy and best F1-Score.
