@@ -2,9 +2,7 @@
 
 # Sentiment Analysis and Trend Detection
 
-This is sentiment analysis project use 2 Dataset :
-- IMDb movie review (Logistic Regression model - Support Vector Machine model)
-- Netflix reviews (Neural Network model)
+This is sentiment analysis project use IMDb movie review dataset 
 
 # The Results of Machine Learning Experiments :
 we do looping on The hyperparameters "C" values which adjusts the regularization 
