@@ -48,6 +48,7 @@ C_values = [0.01, 0.05, 0.25, 0.5, 1]
 
 
 
+
 results = []
 ################################################################################
 # Baseline Code With Logistic Regression
@@ -55,17 +56,18 @@ print("Baseline Code With Logistic Regression")
 cv = CountVectorizer(binary=True)
 cv.fit(reviews_train_clean)
 X = cv.transform(reviews_train_clean)
-X_test = cv.transform(reviews_test_clean)
+test_X = cv.transform(reviews_test_clean)
 
 
 target = [1 if i < 12500 else 0 for i in range(25000)]
-X_train, X_val, y_train, y_val = train_test_split(X, target, test_size = 0.25)
+X_train, X_test, y_train, y_test = train_test_split(X, target, test_size = 0.25)
 
 # Using Logistic Regression Model
 for c in C_values:
     lr = LogisticRegression(C=c)
     lr.fit(X_train, y_train)
-    results.append( accuracy_score(y_val, lr.predict(X_val)) )
+    pred = lr.predict(X_test)
+    results.append( accuracy_score(y_test, pred) )
 
 print(results)
 
@@ -75,7 +77,13 @@ print(best_c)
 
 final_model = LogisticRegression(C=best_c)
 final_model.fit(X, target)
-print ("Final Accuracy: %s" % accuracy_score(target, final_model.predict(X_test)))
+pred = final_model.predict(test_X)
+
+print("\tPrecision: %1.3f" % precision_score(target, pred))
+print("\tRecall: %1.3f" % recall_score(target, pred))
+print("\tF1: %1.3f\n" % f1_score(target, pred))
+
+print ("Final Accuracy: %s" % accuracy_score(target, pred ))
 ################################################################################
 
 
@@ -86,17 +94,18 @@ print("Bi-Grams With Logistic Regression")
 cv = CountVectorizer(binary=True, ngram_range=(1, 2))
 cv.fit(reviews_train_clean)
 X = cv.transform(reviews_train_clean)
-X_test = cv.transform(reviews_test_clean)
+test_X = cv.transform(reviews_test_clean)
 
 
 target = [1 if i < 12500 else 0 for i in range(25000)]
-X_train, X_val, y_train, y_val = train_test_split(X, target, test_size = 0.25)
+X_train, X_test, y_train, y_test = train_test_split(X, target, test_size = 0.25)
 
 # Using Logistic Regression Model
 for c in C_values:
     lr = LogisticRegression(C=c)
     lr.fit(X_train, y_train)
-    results.append( accuracy_score(y_val, lr.predict(X_val)) )
+    pred = lr.predict(X_test)
+    results.append( accuracy_score(y_test, pred ) )
 
 print(results)
 
@@ -106,7 +115,13 @@ print(best_c)
 
 final_model = LogisticRegression(C=best_c)
 final_model.fit(X, target)
-print ("Final Accuracy: %s" % accuracy_score(target, final_model.predict(X_test)))
+pred = final_model.predict(test_X)
+
+print("\tPrecision: %1.3f" % precision_score(target, pred))
+print("\tRecall: %1.3f" % recall_score(target, pred))
+print("\tF1: %1.3f\n" % f1_score(target, pred))
+
+print ("Final Accuracy: %s" % accuracy_score(target, pred ))
 ################################################################################
 
 
@@ -117,17 +132,18 @@ print("Word Counts With Logistic Regression")
 cv = CountVectorizer(binary=False)
 cv.fit(reviews_train_clean)
 X = cv.transform(reviews_train_clean)
-X_test = cv.transform(reviews_test_clean)
+test_X = cv.transform(reviews_test_clean)
 
 
 target = [1 if i < 12500 else 0 for i in range(25000)]
-X_train, X_val, y_train, y_val = train_test_split(X, target, test_size = 0.25)
+X_train, X_test, y_train, y_test = train_test_split(X, target, test_size = 0.25)
 
 # Using Logistic Regression Model
 for c in C_values:
     lr = LogisticRegression(C=c)
     lr.fit(X_train, y_train)
-    results.append( accuracy_score(y_val, lr.predict(X_val)) )
+    pred = lr.predict(X_test)
+    results.append( accuracy_score(y_test, pred ) )
 
 print(results)
 
@@ -137,7 +153,13 @@ print(best_c)
 
 final_model = LogisticRegression(C=best_c)
 final_model.fit(X, target)
-print ("Final Accuracy: %s" % accuracy_score(target, final_model.predict(X_test)))
+pred = final_model.predict(test_X)
+
+print("\tPrecision: %1.3f" % precision_score(target, pred))
+print("\tRecall: %1.3f" % recall_score(target, pred))
+print("\tF1: %1.3f\n" % f1_score(target, pred))
+
+print ("Final Accuracy: %s" % accuracy_score(target, pred ))
 ################################################################################
 
 results = []
@@ -147,17 +169,18 @@ print("TF-IDF With Logistic Regression")
 cv = TfidfVectorizer()
 cv.fit(reviews_train_clean)
 X = cv.transform(reviews_train_clean)
-X_test = cv.transform(reviews_test_clean)
+test_X = cv.transform(reviews_test_clean)
 
 
 target = [1 if i < 12500 else 0 for i in range(25000)]
-X_train, X_val, y_train, y_val = train_test_split(X, target, test_size = 0.25)
+X_train, X_test, y_train, y_test = train_test_split(X, target, test_size = 0.25)
 
 # Using Logistic Regression Model
 for c in C_values:
     lr = LogisticRegression(C=c)
     lr.fit(X_train, y_train)
-    results.append( accuracy_score(y_val, lr.predict(X_val)) )
+    pred = lr.predict(X_test)
+    results.append( accuracy_score(y_test, pred ) )
 
 print(results)
 
@@ -167,7 +190,13 @@ print(best_c)
 
 final_model = LogisticRegression(C=best_c)
 final_model.fit(X, target)
-print ("Final Accuracy: %s" % accuracy_score(target, final_model.predict(X_test)))
+pred = final_model.predict(test_X)
+
+print("\tPrecision: %1.3f" % precision_score(target, pred))
+print("\tRecall: %1.3f" % recall_score(target, pred))
+print("\tF1: %1.3f\n" % f1_score(target, pred))
+
+print ("Final Accuracy: %s" % accuracy_score(target, pred ))
 ################################################################################
 
 results = []
@@ -177,25 +206,33 @@ print("Bi-Gram With Support Vector Machine Model")
 cv = CountVectorizer(binary=True, ngram_range=(1, 2))
 cv.fit(reviews_train_clean)
 X = cv.transform(reviews_train_clean)
-X_test = cv.transform(reviews_test_clean)
+test_X = cv.transform(reviews_test_clean)
 
 
 target = [1 if i < 12500 else 0 for i in range(25000)]
-X_train, X_val, y_train, y_val = train_test_split(X, target, test_size = 0.25)
+X_train, X_test, y_train, y_test = train_test_split(X, target, test_size = 0.25)
 
 # Using SVM Model
 for c in C_values:
     svm = LinearSVC(C=c)
     svm.fit(X_train, y_train)
-    results.append( accuracy_score(y_val, svm.predict(X_val)) )
+    pred = svm.predict(X_test)
+    results.append( accuracy_score(y_test, pred ) )
     
 print(results)
 
 best_c = C_values[ np.argmax( np.array( results ) ) ] 
+
 print(best_c)
 
 # Using Support Vector Machine Model    
 final_svm_ngram = LinearSVC(C=best_c)
 final_svm_ngram.fit(X, target)
-print ("Final Accuracy: %s" % accuracy_score(target, final_svm_ngram.predict(X_test)))
+pred = final_svm_ngram.predict(test_X)
+
+print("\tPrecision: %1.3f" % precision_score(target, pred))
+print("\tRecall: %1.3f" % recall_score(target, pred))
+print("\tF1: %1.3f\n" % f1_score(target, pred))
+
+print ("Final Accuracy: %s" % accuracy_score(target, pred ))
 ################################################################################
