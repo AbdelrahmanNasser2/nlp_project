@@ -53,13 +53,13 @@ C_values = [0.01, 0.05, 0.25, 0.5, 1]
 
 - Fifth Experiment : Bi-Gram With Support Vector Machine Model
 
-      The accuracy of the 5 C : [0.89152, 0.88992, 0.88896, 0.88896, 0.88896]
+      The accuracy of the 5 C : [0.89248, 0.8904, 0.8904, 0.89072, 0.89104]
       The Highest C : 0.01
-      Final Accuracy: 0.8972
+      Final Accuracy: 0.89708
 
-      Precision: 0.891
-      Recall: 0.898
-      F1: 0.894
+      Precision: 0.892
+      Recall: 0.903
+      F1: 0.898
 
 # Conclusion :
 the Bi-Grams with Logistic Regression get the best accuracy and best F1-Score.
