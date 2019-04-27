@@ -1,10 +1,3 @@
-"""
-Trains a LSTM network to perform Sentiment Analysis
-
-Created on Wed Dec 26 18:38:43 2018
-
-@author: Artem Oppermann
-"""
 import json
 import os
 import tensorflow as tf
