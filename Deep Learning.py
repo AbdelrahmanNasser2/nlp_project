@@ -1,7 +1,15 @@
+"""
+Trains a LSTM network to perform Sentiment Analysis
+
+Created on Wed Dec 26 18:38:43 2018
+
+@author: Artem Oppermann
+"""
 import json
 import os
 import tensorflow as tf
 import numpy as np
+import sys
 
 from data.dataset import get_training_data, get_test_data
 from models.train_model import TrainModel
@@ -9,6 +17,10 @@ from data.utils import show_sample
 from sklearn.metrics import precision_score
 from sklearn.metrics import recall_score
 from sklearn.metrics import f1_score
+# from sklearn.linear_model import LogisticRegression
+# from sklearn.svm import LinearSVC
+# from sklearn.model_selection import train_test_split
+np.set_printoptions(threshold=sys.maxsize)
 
 import warnings
 warnings.filterwarnings('ignore')
@@ -109,35 +121,44 @@ def main(_):
     with tf.Session(graph=training_graph) as sess:
 
         # print(sess.run(type))
+
         sess.run(tf.global_variables_initializer())
+        sess.run(iterator_train.initializer)
+        sess.run(iterator_test.initializer)
+        traininig_loss = 0
+        training_acc = 0
 
+        feed_dict = {dropout_keep_prob: 0.5}
+        prb_test = sess.run(probs_test, feed_dict)
+        y_ttest = sess.run(y_test, feed_dict)
+        prb_test2 = []
 
-        n_batches=int(FLAGS.n_train_samples/FLAGS.batch_size)   
+        y_ttest2 = []
+        counter = 0
+        n_batches=int(FLAGS.n_train_samples/FLAGS.batch_size)
 
         for epoch in range(FLAGS.num_epoch):
-            
-            sess.run(iterator_train.initializer)
-            sess.run(iterator_test.initializer)
-            
-            traininig_loss=0
-            training_acc=0
 
 
 
-            feed_dict={dropout_keep_prob:0.5}
 
-            prb_test = sess.run(probs_test, feed_dict)
-            y_ttest = sess.run(y_test, feed_dict)
+            if counter != 0:
+                sess.run(iterator_train.initializer)
+                sess.run(iterator_test.initializer)
 
-            prb_test2 = []
+                traininig_loss = 0
+                training_acc = 0
+                feed_dict={dropout_keep_prob:0.5}
 
-            y_ttest2 = []
+
+
+
 
             for x in prb_test:
                 if x[0] >= 0.5:
-                    prb_test2.append(1)
-                else:
                     prb_test2.append(0)
+                else:
+                    prb_test2.append(1)
 
 
             for y in y_ttest:
@@ -145,7 +166,8 @@ def main(_):
 
 
 
-            # print(type(y_ttest))
+            #print(y_ttest2)
+            #print(prb_test2)
         
 
             for n_batch in range(0, n_batches):
@@ -167,11 +189,17 @@ def main(_):
 
             print('Epoch: %i, Accuracy: %.3f'%(epoch, acc_avg_test))
 
-            print("\tPrecision: %1.3f" % precision_score(y_ttest2, prb_test2))
-            print("\tRecall: %1.3f" % recall_score(y_ttest2, prb_test2))
-            print("\tF1: %1.3f\n" % f1_score(y_ttest2, prb_test2))
 
 
+            
+            # show_sample(FLAGS, sess, logits_test, probs_test, dropout_keep_prob, x)
+
+            counter = counter+1
+            if FLAGS.required_acc_checkpoint>0.70:
+                 saver.save(sess, FLAGS.checkpoints_path)
+        print("\tPrecision: %1.3f" % precision_score(y_ttest2, prb_test2))
+        print("\tRecall: %1.3f" % recall_score(y_ttest2, prb_test2))
+        print("\tF1: %1.3f\n" % f1_score(y_ttest2, prb_test2))
 
 
 if __name__ == "__main__":
