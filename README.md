@@ -59,11 +59,13 @@ C_values = [0.01, 0.05, 0.25, 0.5, 1]
       Recall: 0.903
       F1: 0.898
       
--Seventh Experiment : RNN
-      Accuracy: 0.856
+- Seventh Experiment : RNN
+
+      Accuracy : 0.856
       Precision: 0.490
       Recall: 0.493
       F1: 0.491
+
       
 # Conclusion :
 the Bi-Grams with Logistic Regression get the best accuracy and best F1-Score.
